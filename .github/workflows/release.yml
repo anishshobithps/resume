@@ -32,7 +32,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          tag_name: "v{{ github.run_id }}"
+          tag_name: "v${{ github.run_id }}"
           name: "Resume Release - ${{ github.run_id }}"
           body: "Resume Release - ${{ github.run_id }}"
           generate_release_notes: false
