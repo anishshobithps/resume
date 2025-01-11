@@ -1,14 +1,22 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-INPUT_FILE="$1"
-OUTPUT_NAME="${2:-output.pdf}"  # Default to output.pdf if no name specified
+# Create output directory
+mkdir -p /latex/output
 
-# Compile the LaTeX document
-latexmk -pdf "$INPUT_FILE"
+# Run XeLaTeX with proper output name
+xelatex -interaction=nonstopmode \
+        -output-directory=/latex/output \
+        -jobname="Anish_Shobith_P_S_Resume" \
+        "main.tex"
 
-# Get the base name of the input file without extension
-BASE_NAME=$(basename "$INPUT_FILE" .tex)
+# Run again if needed for references
+if grep -q "Rerun to get" "/latex/output/Anish_Shobith_P_S_Resume.log"; then
+    xelatex -interaction=nonstopmode \
+            -output-directory=/latex/output \
+            -jobname="Anish_Shobith_P_S_Resume" \
+            "main.tex"
+fi
 
-# Rename the output file
-mv "${BASE_NAME}.pdf" "$OUTPUT_NAME"
+# Copy the final PDF to the mounted volume
+cp /latex/output/Anish_Shobith_P_S_Resume.pdf /latex/

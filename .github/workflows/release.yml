@@ -3,6 +3,11 @@ name: Build and Release Resume
 on:
   push:
     branches: [main]
+    paths:
+      - '**.tex'
+      - '**.cls'
+      - '**.sty'
+      - '.docker/**'
   workflow_dispatch:
 
 jobs:
@@ -10,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write
-      actions: write
       packages: write
 
     steps:
@@ -20,13 +23,26 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64
+          driver-opts: |
+            image=moby/buildkit:master
+            network=host
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -34,35 +50,35 @@ jobs:
           context: .docker
           push: true
           tags: ghcr.io/${{ github.repository }}/latex-builder:latest
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest,mode=max
+          cache-from: |
+            type=local,src=/tmp/.buildx-cache
+            type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest
+          cache-to: |
+            type=local,dest=/tmp/.buildx-cache-new,mode=max
+            type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest,mode=max
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Build LaTeX document
         run: |
+          mkdir -p output
           docker run --rm -v ${{ github.workspace }}:/latex \
-            ghcr.io/${{ github.repository }}/latex-builder:latest \
-            /latex/entrypoint.sh "Anish_Shobith_P_S_Resume.pdf"
-
-      - name: Combine Metadata
-        id: metadata
-        run: |
-          echo "date=$(date +'%d-%m-%Y')" >> $GITHUB_OUTPUT
-          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+            ghcr.io/${{ github.repository }}/latex-builder:latest
 
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          draft: false
-          prerelease: false
-          tag_name: v${{ steps.metadata.outputs.date }}
-          name: "Resume Update ${{ steps.metadata.outputs.date }}"
+          tag_name: v$(date +'%Y.%m.%d')
+          name: "Resume Update $(date +'%Y.%m.%d')"
           body: |
-            📄 Resume update for ${{ steps.metadata.outputs.date }}
+            📄 Resume update $(date +'%Y.%m.%d')
 
-            **Commit**: ${{ steps.metadata.outputs.sha }}
+            **Commit**: ${{ github.sha }}
             **Branch**: main
-
-            [View PDF](https://github.com/${{ github.repository }}/releases/download/v${{ steps.metadata.outputs.date }}/Anish_Shobith_P_S_Resume.pdf)
           files: Anish_Shobith_P_S_Resume.pdf
-          token: ${{ secrets.GITHUB_TOKEN }}

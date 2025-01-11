@@ -1,30 +1,37 @@
-# Stage 1: TeX Live Base
-FROM alpine:latest AS builder-texlive
+# Stage 1: Builder with all necessary packages
+FROM alpine:latest AS builder
 
-RUN apk add --no-cache git bash wget perl # Perl is required by tlmgr
+# Install build dependencies
+RUN apk add --no-cache \
+    texlive \
+    texlive-xetex \
+    texmf-dist \
+    texmf-dist-latexextra \
+    texmf-dist-fontsextra \
+    perl \
+    fontconfig \
+    make
 
-# Install TeX Live and set PATH in one step
-RUN apk add --no-cache texlive texlive-full --repository=http://dl-cdn.alpinelinux.org/alpine/v3.18/main \
-  && echo "/usr/local/texlive/2024/bin/x86_64-linux:$PATH" > /etc/profile.d/texlive.sh
-
-# Stage 2: Fonts and Packages
-FROM builder-texlive AS builder-fonts
-
-RUN tlmgr install xcharter enumitem hyperref titlesec xstring geometry fancyhdr etoolbox
-
-# Stage 3: Final Image
+# Stage 2: Final image with only runtime dependencies
 FROM alpine:latest
+
+# Install only runtime dependencies
+RUN apk add --no-cache \
+    texlive-xetex \
+    texmf-dist \
+    fontconfig
+
+# Copy necessary files from builder
+COPY --from=builder /usr/share/texmf-dist /usr/share/texmf-dist
+COPY --from=builder /usr/share/texlive /usr/share/texlive
+COPY --from=builder /var/lib/texmf /var/lib/texmf
 
 WORKDIR /latex
 
-# Copy necessary files
-COPY --from=builder-fonts /usr/local/texlive/2024/texmf-dist /usr/local/texlive/2024/texmf-dist
-COPY --from=builder-fonts /usr/local/texlive/2024/bin/x86_64-linux/xelatex /usr/local/texlive/2024/bin/x86_64-linux/xelatex
-COPY --from=builder-fonts /usr/local/texlive/2024/bin/x86_64-linux/latexmk /usr/local/texlive/2024/bin/x86_64-linux/latexmk
-
-# No need to set PATH again, it's already set in Stage 1
+# Copy your LaTeX files
 COPY entrypoint.sh /entrypoint.sh
-COPY *.tex *.bib *.cls /latex/
+COPY *.tex *.cls *.sty ./
+
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
