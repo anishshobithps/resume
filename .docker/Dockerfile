@@ -1,32 +1,31 @@
-# Stage 1: Install TeX Live and dependencies (Cached)
-FROM alpine:latest AS builder
+# Stage 1: TeX Live Base
+FROM alpine:latest AS builder-texlive
 
-# Install system dependencies (these rarely change)
-RUN apk add --no-cache git bash wget
+RUN apk add --no-cache git bash wget perl # Perl is required by tlmgr
+RUN apk add --no-cache texlive --repository=http://dl-cdn.alpinelinux.org/alpine/v3.18/main
+ENV PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
+RUN tlmgr update --self
+RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet
 
-# Install texlive and other tex related packages to cache
-RUN apk add --no-cache \
-    texlive \
-    texlive-latex \
-    texlive-latex-extra \
-    texlive-fonts-extra \
-    texlive-xetex \
-    texlive-bibtex-extra \
-    latexmk \
-    --repository=http://dl-cdn.alpinelinux.org/alpine/v3.18/main
+# Stage 2: Fonts and Packages
+FROM builder-texlive AS builder-fonts
 
-# Stage 2: Final Image (Smaller and Faster)
+RUN tlmgr install xcharter
+RUN tlmgr install enumitem hyperref titlesec xstring geometry fancyhdr etoolbox
+
+# Stage 3: Final Image
 FROM alpine:latest
 
 WORKDIR /latex
 
-# Copy only the necessary parts of TeX Live
-COPY --from=builder /usr/share/texmf-dist /usr/share/texmf-dist
-COPY --from=builder /usr/bin/latexmk /usr/bin/latexmk
-COPY --from=builder /usr/bin/xelatex /usr/bin/xelatex
+# Copy necessary files
+COPY --from=builder-fonts /usr/local/texlive/2023/texmf-dist /usr/local/texlive/2023/texmf-dist
+COPY --from=builder-fonts /usr/local/texlive/2023/bin/x86_64-linux/xelatex /usr/local/texlive/2023/bin/x86_64-linux/xelatex
+COPY --from=builder-fonts /usr/local/texlive/2023/bin/x86_64-linux/latexmk /usr/local/texlive/2023/bin/x86_64-linux/latexmk
 
-# Copy your project files AFTER the TeX Live setup
+ENV PATH="/usr/local/texlive/2023/bin/x86_64-linux:$PATH"
 COPY entrypoint.sh /entrypoint.sh
+COPY *.tex *.bib *.cls /latex/
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
