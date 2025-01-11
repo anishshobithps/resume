@@ -32,9 +32,9 @@ jobs:
         with:
           draft: false
           prerelease: false
-          tag_name: "v${{ github.run_id }}"
-          name: "Resume Release - ${{ github.run_id }}"
-          body: "Resume Release - ${{ github.run_id }}"
+          tag_name: "release-${{ github.head_ref }}-${{ github.sha }}"
+          name: "Release - ${{ github.head_ref }} (${{ github.sha }})"
+          body: "Release for commit ${{ github.sha }} from branch ${{ github.head_ref }}"
           generate_release_notes: false
           files: |
             Anish_Shobith_P_S_Resume.pdf
