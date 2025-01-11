@@ -31,7 +31,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: .docker
           push: true
           tags: ghcr.io/${{ github.repository }}/latex-builder:latest
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest
