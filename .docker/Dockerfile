@@ -1,22 +1,26 @@
 # Stage 1: Builder with all necessary packages
-FROM alpine:latest AS builder
+FROM ubuntu:latest AS builder
 
-# Install texlive-all and build dependencies in a single layer to optimize caching
-RUN apk add --no-cache \
-    texlive-all \
-    perl \
-    fontconfig \
-    make \
-    && texhash
+# Install build dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        texlive-full \
+        perl \
+        fontconfig \
+        && rm -rf /var/lib/apt/lists/*
 
 # Stage 2: Final image with only runtime dependencies
-FROM alpine:latest
+FROM ubuntu:latest
 
 # Install minimal runtime dependencies
-RUN apk add --no-cache \
-    texlive-xetex \
-    texmf-dist \
-    fontconfig
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        texlive-xetex \
+        texlive-fonts-recommended \
+        texlive-pictures \
+        fontconfig \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy texmf files from builder
 COPY --from=builder /usr/share/texmf-dist /usr/share/texmf-dist
