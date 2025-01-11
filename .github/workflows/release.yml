@@ -22,21 +22,10 @@ jobs:
         id: changes
         run: |
           CHANGED=0
-          # Fetch the latest changes
           git fetch origin main
-
-          # Check if there are more than one commit to compare against
-          if [ "$(git rev-list --count HEAD)" -gt 1 ]; then
-            # Ensure that there is more than 1 commit in the history
-            if git diff --name-only HEAD^ HEAD | grep -E "^(.docker/|.*\.(tex|sty|cls)$)" > /dev/null; then
+          if [[ $(git diff --name-only origin/main HEAD) =~ ^(\.docker\/|.*\.tex$|.*\.sty$|.*\.cls$) ]]; then
               CHANGED=1
-            fi
-          else
-            # If there's no previous commit (only 1 commit), assume no changes to the relevant files
-            echo "Only one commit or no previous commit, skipping change check."
-            CHANGED=0
           fi
-
           echo "changed=${CHANGED}" >> $GITHUB_OUTPUT
 
       - name: Set up Docker
@@ -58,14 +47,8 @@ jobs:
           context: .docker
           push: true
           tags: ghcr.io/${{ github.repository }}/latex-builder:latest
-          cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:buildcache
-            type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:(buildcache,latest)
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:buildcache,mode=max
-
-      - name: Pull latest Docker image
-        if: steps.changes.outputs.changed == '1'
-        run: docker pull ghcr.io/${{ github.repository }}/latex-builder:latest
 
       - name: Build LaTeX document
         if: steps.changes.outputs.changed == '1'
