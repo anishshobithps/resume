@@ -57,9 +57,11 @@ jobs:
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:buildcache,mode=max
 
       - name: Pull latest Docker image
+        if: steps.changes.outputs.changed == '1'
         run: docker pull ghcr.io/${{ github.repository }}/latex-builder:latest
 
       - name: Build LaTeX document
+        if: steps.changes.outputs.changed == '1'
         run: |
           docker run --rm -v ${{ github.workspace }}:/latex \
             ghcr.io/${{ github.repository }}/latex-builder:latest \
