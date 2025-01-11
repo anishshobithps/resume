@@ -52,19 +52,19 @@ jobs:
         with:
           context: .docker
           push: true
-          tags: ghcr.io/${{ github.repository }}/resume:latest
+          tags: ghcr.io/${{ github.repository }}/latex-builder:latest
           cache-from: |
-            type=registry,ref=ghcr.io/${{ github.repository }}/resume:buildcache
-            type=registry,ref=ghcr.io/${{ github.repository }}/resume:latest
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/resume:buildcache,mode=max
+            type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:buildcache
+            type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:latest
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/latex-builder:buildcache,mode=max
 
       - name: Pull latest Docker image
-        run: docker pull ghcr.io/${{ github.repository }}/resume:latest
+        run: docker pull ghcr.io/${{ github.repository }}/latex-builder:latest
 
       - name: Build LaTeX document
         run: |
           docker run --rm -v ${{ github.workspace }}:/latex \
-            ghcr.io/${{ github.repository }}/resume:latest \
+            ghcr.io/${{ github.repository }}/latex-builder:latest \
             main.tex "Anish_Shobith_P_S_Resume.pdf"
 
       - name: Get current date
