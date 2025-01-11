@@ -22,6 +22,11 @@ jobs:
         run: |
           mv main.pdf Anish_Shobith_P_S_Resume.pdf
 
+      - name: Set Release Date
+        id: date
+        run: |
+          echo "::set-output name=date::$(TZ=Asia/Kolkata date +'%d/%m/%Y %T')"
+
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
@@ -30,7 +35,7 @@ jobs:
           prerelease: false
           tag_name: "v{{ github.run_id }}"
           name: "Resume Release - ${{ github.run_id }}"
-          body: "Resume Release - ${{ date  }}"
+          body: "Resume Release - ${{ steps.date.outputs.date }}"
           generate_release_notes: false
           files: |
             Anish_Shobith_P_S_Resume.pdf
