@@ -1,7 +1,7 @@
 # Stage 1: Builder with all necessary packages
 FROM alpine:latest AS builder
 
-# Install build dependencies
+# Install build dependencies in a single layer to optimize caching
 RUN apk add --no-cache \
     texlive \
     texlive-xetex \
@@ -10,21 +10,20 @@ RUN apk add --no-cache \
     texmf-dist-fontsextra \
     perl \
     fontconfig \
-    make
+    make \
+    && texhash
 
 # Stage 2: Final image with only runtime dependencies
 FROM alpine:latest
 
-# Install only runtime dependencies
+# Install minimal runtime dependencies
 RUN apk add --no-cache \
     texlive-xetex \
     texmf-dist \
     fontconfig
 
-# Copy necessary files from builder
+# Copy texmf files from builder
 COPY --from=builder /usr/share/texmf-dist /usr/share/texmf-dist
-COPY --from=builder /usr/share/texlive /usr/share/texlive
-COPY --from=builder /var/lib/texmf /var/lib/texmf
 
 WORKDIR /latex
 
@@ -32,6 +31,8 @@ WORKDIR /latex
 COPY entrypoint.sh /entrypoint.sh
 COPY *.tex *.cls *.sty ./
 
-RUN chmod +x /entrypoint.sh
+# Make entrypoint executable and refresh TeX file database
+RUN chmod +x /entrypoint.sh && \
+    texhash
 
 ENTRYPOINT ["/entrypoint.sh"]
