@@ -9,9 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Required for creating releases and accessing repository contents
-      id-token: write  # Required for authentication and access
-      actions: write   # Required for workflow-related actions
+      contents: write # Required for creating releases and accessing repository contents
+      id-token: write # Required for authentication and access
+      actions: write # Required for workflow-related actions
 
     steps:
       - name: Checkout
