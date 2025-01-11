@@ -1,0 +1,122 @@
+% -----------------------------------------------------------------------------
+% Formatting.sty - Custom formatting and commands for a modular resume
+% -----------------------------------------------------------------------------
+% Purpose:
+% This file contains styling and commands for creating a professional resume.
+% It is designed to be modular, allowing easy maintenance and reuse.
+% -----------------------------------------------------------------------------
+
+% -----------------------------------------------------------------------------
+% Required Packages
+% -----------------------------------------------------------------------------
+\RequirePackage[T1]{fontenc}           % T1 font encoding for proper hyphenation
+\RequirePackage[utf8]{inputenc}        % UTF-8 input encoding
+\RequirePackage{enumitem}              % Customization of list environments
+\RequirePackage[hidelinks]{hyperref}   % Hyperlinks without visible borders
+\RequirePackage{titlesec}              % Custom section titles
+\RequirePackage{XCharter}              % Professional font family
+\RequirePackage{xstring}               % String manipulation (e.g., URL processing)
+\RequirePackage{geometry}              % Page layout and margins
+\RequirePackage{etoolbox}              % Enhanced conditional and command tools
+\RequirePackage{fancyhdr}              % Custom headers and footers
+
+% -----------------------------------------------------------------------------
+% Page Layout and Margins
+% -----------------------------------------------------------------------------
+\geometry{a4paper, margin=0.5in}       % A4 paper with 0.5in margins
+
+% -----------------------------------------------------------------------------
+% Global Text and Page Settings
+% -----------------------------------------------------------------------------
+\raggedright                          % Left-align text
+\pagestyle{empty}                     % Disable page numbering
+\input{glyphtounicode}                % Enable machine-readable PDF output
+\pdfgentounicode=1
+
+% -----------------------------------------------------------------------------
+% Section Title Formatting
+% -----------------------------------------------------------------------------
+\titleformat{\section}
+  {\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule\vspace{-6.5pt}]
+% Bold, large section titles with a horizontal line below
+
+% -----------------------------------------------------------------------------
+% List Formatting
+% -----------------------------------------------------------------------------
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+\setlist[itemize]{
+  itemsep=-2pt,                       % Space between items
+  leftmargin=12pt,                    % Indentation
+  topsep=7pt                          % Space above list
+}
+
+% -----------------------------------------------------------------------------
+% Spacing Adjustments
+% -----------------------------------------------------------------------------
+\setlength{\parskip}{0pt}             % No extra space between paragraphs
+\setlength{\parindent}{0pt}           % No paragraph indentation
+
+% -----------------------------------------------------------------------------
+% Custom Commands
+% -----------------------------------------------------------------------------
+
+% Command: Technologies used in a project
+% Usage: \technologies{Tech1, Tech2}
+\newcommand{\technologies}[1]{\textit{Technologies: #1}}
+
+% Command: Shortened and Clickable URLs
+% Usage: \shorturl{https://example.com}
+\newcommand{\shorturl}[1]{%
+  \StrSubstitute{#1}{https://}{}[\Result]%
+  \StrSubstitute{\Result}{http://}{}[\Result]%
+  \StrSubstitute{\Result}{mailto:}{}[\Result]%
+  \href{#1}{\Result}%
+}
+
+% Command: Skills List
+% Usage: \skills{Type}{Skills}
+\newcommand{\skills}[2]{\textbf{#1:} #2}
+
+% Command: Project Information Block
+% Usage: \project{Project Name}{URL}{Technologies}{Details}
+\newcommand{\project}[4]{%
+  \textbf{#1} \hfill \shorturl{#2} \\
+  \vspace{-9pt}
+  \begin{itemize}
+    \item \technologies{#3}
+    #4
+  \end{itemize}
+}
+
+% Command: Work Experience Block
+% Usage: \experience{Role}{Company}{Time Period}{Location}{Responsibilities}
+\newcommand{\experience}[5]{%
+  \noindent\textbf{#1,} {#2} -- #3 \hfill #4 \\
+  \vspace{-9pt}
+  \begin{itemize}
+    #5
+  \end{itemize}
+}
+
+% Command: Education Block
+% Usage: \education{Degree}{Institution}{URL}{Graduation Date}
+\newcommand{\education}[4]{%
+  \textbf{#1} -- \href{#3}{#2} \hfill #4
+}
+
+% -----------------------------------------------------------------------------
+% Documentation
+% -----------------------------------------------------------------------------
+% This package provides:
+% - \skills: Format a list of skills with two parameters.
+% - \technologies: Specify technologies used in a project.
+% - \shorturl: Create cleaner hyperlinks by removing protocols.
+% - \project: Define a project with a name, URL, technologies, and details.
+% - \experience: Define work experience with role, company, time, location, and responsibilities.
+% - \education: Add education details with degree, institution, year, and specifics.
+
+% -----------------------------------------------------------------------------
+% Notes:
+% - Adjust spacing, margins, and list styles as needed for different templates.
+% - All sections should be imported from separate files for better modularity.
+% -----------------------------------------------------------------------------
