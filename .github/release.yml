@@ -1,0 +1,34 @@
+name: Build and Release Resume
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup TeX Live
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+
+      - name: Rename Output File
+        run: |
+          mv main.pdf Anish_Shobith_P_S_Resume.pdf
+
+      - name: Create Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          prerelease: false
+          tag_name: "v{{ github.run_id }}"
+          name: "Resume Release - ${{ github.run_id }}"
+          body: "Resume Release - ${{ date  }}"
+          generate_release_notes: false
+          files: |
+            Anish_Shobith_P_S_Resume.pdf
