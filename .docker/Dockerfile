@@ -3,12 +3,9 @@ FROM ubuntu:22.04
 # Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies
+# Install required packages
 RUN apt-get update && apt-get install -y \
-    texlive-latex-base \
-    texlive-fonts-recommended \
-    texlive-fonts-extra \
-    texlive-latex-extra \
+    texlive-full \
     latexmk \
     && rm -rf /var/lib/apt/lists/*
 
@@ -19,5 +16,4 @@ WORKDIR /latex
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Set the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
