@@ -1,13 +1,9 @@
 # Stage 1: Builder with all necessary packages
 FROM alpine:latest AS builder
 
-# Install build dependencies in a single layer to optimize caching
+# Install texlive-all and build dependencies in a single layer to optimize caching
 RUN apk add --no-cache \
-    texlive \
-    texlive-xetex \
-    texmf-dist \
-    texmf-dist-latexextra \
-    texmf-dist-fontsextra \
+    texlive-all \
     perl \
     fontconfig \
     make \
