@@ -3,12 +3,16 @@ name: Build and Release Resume
 on:
   push:
     branches: [main]
-
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for creating releases and accessing repository contents
+      id-token: write  # Required for authentication and access
+      actions: write   # Required for workflow-related actions
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,11 +26,6 @@ jobs:
         run: |
           mv main.pdf Anish_Shobith_P_S_Resume.pdf
 
-      - name: Set Release Date
-        id: date
-        run: |
-          echo "::set-output name=date::$(TZ=Asia/Kolkata date +'%d/%m/%Y %T')"
-
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
@@ -35,7 +34,8 @@ jobs:
           prerelease: false
           tag_name: "v{{ github.run_id }}"
           name: "Resume Release - ${{ github.run_id }}"
-          body: "Resume Release - ${{ steps.date.outputs.date }}"
+          body: "Resume Release - ${{ github.run_id }}"
           generate_release_notes: false
           files: |
             Anish_Shobith_P_S_Resume.pdf
+          token: ${{ secrets.GITHUB_TOKEN }}
