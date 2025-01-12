@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - '**.tex'
-      - '**.cls'
-      - '**.sty'
-      - '.docker/**'
+      - "**.tex"
+      - "**.cls"
+      - "**.sty"
+      - ".docker/**"
   workflow_dispatch:
 
 jobs:
@@ -57,15 +57,27 @@ jobs:
           docker build -t pdflatex .docker
           docker run --rm -v "${{ github.workspace }}:/data" pdflatex -jobname="Anish_Shobith_P_S_Resume" main.tex
 
+      - name: Metadata
+        id: metadata
+        run: |
+          echo "date=$(date +'%d-%m-%Y')" >> $GITHUB_OUTPUT
+          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v$(date +'%Y.%m.%d')
-          name: "Resume Update $(date +'%d.%m.%Y')"
+          draft: false
+          prerelease: false
+          tag_name: v${{ steps.metadata.outputs.date }}
+          name: "Resume Update ${{ steps.metadata.outputs.date }}"
           body: |
-            📄 Resume update $(date +'%d.%m.%Y')
+            📄 Resume update for ${{ steps.metadata.outputs.date }}
 
-            **Commit**: ${{ github.sha }}
+            **Commit**: ${{ steps.metadata.outputs.sha }}
             **Branch**: main
-          files: Anish_Shobith_P_S_Resume.pdf
+
+            [View PDF](https://github.com/${{ github.repository }}/releases/download/v${{ steps.metadata.outputs.date }}/Anish_Shobith_P_S_Resume.pdf)
+          files: |
+            Anish_Shobith_P_S_Resume.pdf
+          token: ${{ secrets.GITHUB_TOKEN }}
