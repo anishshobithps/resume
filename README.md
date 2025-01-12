@@ -13,7 +13,8 @@ Welcome to my resume repository! This repository contains my resume written in T
 - [`formatting.sty`](./formatting.sty): A custom style file for formatting the resume.
 - [`sections`](./sections/): A directory containing individual `TeX` files for different sections of my resume (e.g., `experience`, `education`, `skills`).
 
-> [!NOTE] This repository uses a custom Docker image for compiling the resume, ensuring consistency and reproducibility across different environments.
+> [!NOTE]
+> This repository uses a custom Docker image for compiling the resume, ensuring consistency and reproducibility across different environments.
 
 ## How to Use
 
@@ -43,7 +44,8 @@ docker build -t latex-builder .docker
 docker run --rm -v "$(pwd):/data" latex-builder -jobname="Anish_Shobith_P_S_Resume" main.tex
 ```
 
-> [!NOTE] `jobname` is the name of the file being outputed change as you wish.
+> [!NOTE]
+> `jobname` is the name of the file being outputed change as you wish.
 
 ## Customizations
 
@@ -52,7 +54,8 @@ docker run --rm -v "$(pwd):/data" latex-builder -jobname="Anish_Shobith_P_S_Resu
 
 ## Releases
 
-> [!IMPORTANT] GitHub Actions are used to automatically build and deploy the resume on every push to the repository, simplifying the update process.
+> [!IMPORTANT]
+> GitHub Actions are used to automatically build and deploy the resume on every push to the repository, simplifying the update process.
 
 You can download the latest compiled version of my resume from the [Releases](https://github.com/anishshobithps/resume/releases/latest) page.
 
