@@ -61,4 +61,4 @@ You can download the latest compiled version of my resume from the [Releases](ht
 
 ## License
 
-This project is licensed under the Apache-2.0 License. See the [`LICENSE`](./LICENSE) file for details.
+This project is licensed under the Apache-2.0 License. See the [`LICENSE`](https://github.com/anishshobithps/resume?tab=Apache-2.0-1-ov-file) file for details.
