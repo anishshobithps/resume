@@ -1,4 +1,4 @@
-# Anish Shobith P S's Resume
+![resume](https://socialify.git.ci/anishshobithps/resume/image?description=1&font=Inter&forks=1&issues=1&language=1&name=1&owner=1&pattern=Solid&pulls=1&stargazers=1&theme=Auto)
 
 Welcome to my resume repository! This repository contains my resume written in TeX, allowing for easy customization and a professional look.
 
@@ -13,11 +13,11 @@ Welcome to my resume repository! This repository contains my resume written in T
 - [`formatting.sty`](./formatting.sty): A custom style file for formatting the resume.
 - [`sections`](./sections/): A directory containing individual `TeX` files for different sections of my resume (e.g., `experience`, `education`, `skills`).
 
-[!NOTE] This repository uses a custom Docker image for compiling the resume, ensuring consistency and reproducibility across different environments.
+> [!NOTE] This repository uses a custom Docker image for compiling the resume, ensuring consistency and reproducibility across different environments.
 
 ## How to Use
 
-1. **Clone the repository**: Clone this repository to your local machine using the following command:
+<p> 1. <strong>Clone the repository</strong>: Clone this repository to your local machine using the following command: </p>
 
 ```sh
 git clone git@github.com:anishshobithps/resume.git
@@ -31,19 +31,19 @@ git clone https://github.com/anishshobithps/resume.git
 
 This command will create a local copy of the repository on your computer, allowing you to access and modify the files. You can then proceed with the other steps to compile and customize your resume.
 
-2. **Build the docker Image**: Navigate to the repository's root directory and build the Docker image:
+<p> 2. <strong>Build the docker Image</strong>: Navigate to the repository's root directory and build the Docker image:</p>
 
 ```sh
 docker build -t latex-builder .docker
 ```
 
-3. **Run the Container and Generate the Resume**: Compile the LaTeX file to generate the resume PDF:
+<p> 3. <strong>Run the Container and Generate the Resume</strong>: Compile the LaTeX file to generate the resume PDF:</p>
 
 ```sh
 docker run --rm -v "$(pwd):/data" latex-builder -jobname="Anish_Shobith_P_S_Resume" main.tex
 ```
 
-[!NOTE] `jobname` is the name of the file being outputed change as you wish.
+> [!NOTE] `jobname` is the name of the file being outputed change as you wish.
 
 ## Customizations
 
@@ -52,7 +52,7 @@ docker run --rm -v "$(pwd):/data" latex-builder -jobname="Anish_Shobith_P_S_Resu
 
 ## Releases
 
-[!IMPORTANT] GitHub Actions are used to automatically build and deploy the resume on every push to the repository, simplifying the update process.
+> [!IMPORTANT] GitHub Actions are used to automatically build and deploy the resume on every push to the repository, simplifying the update process.
 
 You can download the latest compiled version of my resume from the [Releases](https://github.com/anishshobithps/resume/releases/latest) page.
 
