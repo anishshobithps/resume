@@ -18,66 +18,49 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          platforms: linux/amd64
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up image metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ghcr.io/${{ github.repository_owner }}/latex-builder
-          tags: |
-            type=raw,value=latest
-
-      - name: Build and push Docker image
+      - name: Build and Push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .docker
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ghcr.io/${{ github.repository_owner }}/latex-builder:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build LaTeX document
+      - name: Build Resume
         run: |
-          mkdir -p output
-          docker build -t pdflatex .docker
-          docker run --rm -v "${{ github.workspace }}:/data" pdflatex -jobname="Anish_Shobith_P_S_Resume" main.tex
-
-      - name: Metadata
-        id: metadata
-        run: |
-          echo "date=$(date +'%d-%m-%Y')" >> $GITHUB_OUTPUT
-          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          docker run --rm -v "${{ github.workspace }}:/data" \
+            ghcr.io/${{ github.repository_owner }}/latex-builder \
+            -jobname="Anish_Shobith_P_S_Resume" main.tex
 
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          draft: false
-          prerelease: false
-          tag_name: v${{ steps.metadata.outputs.date }}
-          name: "Resume Update ${{ steps.metadata.outputs.date }}"
+          tag_name: v${{ github.run_number }}
+          name: "Resume Update ${{ github.run_number }}"
           body: |
-            📄 Resume update for ${{ steps.metadata.outputs.date }}
+            ## 📄 Resume Update
 
-            **Commit**: ${{ steps.metadata.outputs.sha }}
-            **Branch**: main
+            **Build**: #${{ github.run_number }}
+            **Commit**: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            **Author**: ${{ github.actor }}
+            **Date**: ${{ github.event.head_commit.timestamp }}
 
-            [View PDF](https://github.com/${{ github.repository }}/releases/download/v${{ steps.metadata.outputs.date }}/Anish_Shobith_P_S_Resume.pdf)
-          files: |
-            Anish_Shobith_P_S_Resume.pdf
+            ### 📝 Changes
+            ```
+                ${{ github.event.head_commit.message }}
+            ```
+
+            ### 📎 Files
+            - [Download Resume PDF](https://github.com/${{ github.repository }}/releases/download/v${{ github.run_number }}/Anish_Shobith_P_S_Resume.pdf)
+          files: Anish_Shobith_P_S_Resume.pdf
           token: ${{ secrets.GITHUB_TOKEN }}
