@@ -54,17 +54,17 @@ jobs:
       - name: Build LaTeX document
         run: |
           mkdir -p output
-          docker run --rm -v ${{ github.workspace }}:/latex \
-            ghcr.io/${{ github.repository_owner }}/latex-builder:latest
+          docker build -t pdflatex .docker
+          docker run --rm -v "${{ github.workspace }}:/data" pdflatex -jobname="Anish_Shobith_P_S_Resume" main.tex
 
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v$(date +'%Y.%m.%d')
-          name: "Resume Update $(date +'%Y.%m.%d')"
+          name: "Resume Update $(date +'%d.%m.%Y')"
           body: |
-            📄 Resume update $(date +'%Y.%m.%d')
+            📄 Resume update $(date +'%d.%m.%Y')
 
             **Commit**: ${{ github.sha }}
             **Branch**: main
