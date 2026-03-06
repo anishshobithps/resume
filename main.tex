@@ -1,5 +1,34 @@
 \documentclass[11pt]{article}
-\usepackage{formatting}  % Custom styling and commands for a modular resume
+\usepackage{formatting}
+
+\hypersetup{
+  pdftitle={Anish Shobith P S},
+  pdfauthor={Anish Shobith P S},
+  pdfauthortitle={Software Engineer},
+  pdfsubject={Software Engineer Resume - JavaScript, TypeScript, React, Next.js},
+  pdfkeywords={
+    JavaScript, TypeScript, Python, C, C++,
+    React, Next.js, Astro, Tailwind CSS, Three.js, Framer Motion,
+    Node.js, Bun, Express.js, Hono, REST, GraphQL,
+    PostgreSQL, MySQL, SQLite, MongoDB, Prisma, Drizzle,
+    Git, Docker, Linux,
+    Typst, LaTeX,
+    Software Engineer, SDE, Full Stack, Frontend, Backend,
+    Mangaluru, India, Open to Work,
+    n10nce, anishshobithps
+  },
+  pdfcreator={pdflatex + XCharter},
+  pdfproducer={Anish Shobith P S},
+  pdflang={en-US},
+  pdfmetalang={en-US},
+  pdfcontactaddress={Mangaluru - Karnataka - India},
+  pdfcontactemail={anish.shobith19@gmail.com},
+  pdfcontacturl={https://anishshobithps.com},
+  pdfcopyright={Copyright 2024-\the\year\ Anish Shobith P S. Licensed under Apache-2.0.},
+  pdflicenseurl={https://www.apache.org/licenses/LICENSE-2.0},
+  pdfurl={https://anishshobithps.com},
+  pdfpubtype={other},
+}
 
 \begin{document}
 
@@ -12,5 +41,17 @@
 \input{sections/projects}
 \vspace{-14pt}
 \input{sections/education}
+
+\embedfile[
+  mimetype=application/ld+json,
+  desc={Schema.org structured data - Anish Shobith P S},
+  afrelationship={/Supplement}
+]{schema.json}
+
+\embedfile[
+  mimetype=application/json,
+  desc={JSON Resume - Anish Shobith P S},
+  afrelationship={/Supplement}
+]{resume.json}
 
 \end{document}

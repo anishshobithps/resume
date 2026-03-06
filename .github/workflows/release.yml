@@ -7,6 +7,7 @@ on:
       - "**.tex"
       - "**.cls"
       - "**.sty"
+      - "**.json"
       - ".docker/**"
   workflow_dispatch:
 
@@ -19,7 +20,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: docker/setup-buildx-action@v3
+
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -35,32 +40,69 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Update metadata dates
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          YEAR=$(date +%Y)
+          sed -i "s/\"lastModified\": \".*\"/\"lastModified\": \"$DATE\"/" resume.json
+          sed -i "s/\"dateModified\": \".*\"/\"dateModified\": \"$YEAR\"/" schema.json
+
+      - name: Set build date
+        id: date
+        run: echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+
       - name: Build Resume
         run: |
           docker run --rm -v "${{ github.workspace }}:/data" \
             ghcr.io/${{ github.repository_owner }}/latex-builder \
             -jobname="Anish_Shobith_P_S_Resume" main.tex
 
+      - name: Rename PDF with date
+        run: |
+          mv Anish_Shobith_P_S_Resume.pdf \
+            "Anish_Shobith_P_S_Resume_${{ steps.date.outputs.date }}.pdf"
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git tag --sort=-version:refname | head -n 1)
+          if [ -z "$PREV_TAG" ]; then
+            LOG=$(git log --oneline --no-merges | head -20)
+          else
+            LOG=$(git log "$PREV_TAG"..HEAD --oneline --no-merges)
+          fi
+          echo "log<<EOF" >> $GITHUB_OUTPUT
+          echo "$LOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Get PDF size
+        id: meta
+        run: |
+          SIZE=$(du -sh "Anish_Shobith_P_S_Resume_${{ steps.date.outputs.date }}.pdf" | cut -f1)
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+
       - name: Create Release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
-          name: "Resume Update ${{ github.run_number }}"
+          name: "v${{ github.run_number }} — ${{ steps.date.outputs.date }}"
           body: |
-            ## 📄 Resume Update
-
-            **Build**: #${{ github.run_number }}
-            **Commit**: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-            **Author**: ${{ github.actor }}
-            **Date**: ${{ github.event.head_commit.timestamp }}
+            ### 📦 Build Info
+            | Field | Value |
+            |-------|-------|
+            | Build | #${{ github.run_number }} |
+            | Date | ${{ steps.date.outputs.date }} |
+            | Commit | [`${{ github.sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) |
+            | Author | ${{ github.actor }} |
+            | Size | ${{ steps.meta.outputs.size }} |
 
             ### 📝 Changes
             ```
-                ${{ github.event.head_commit.message }}
+            ${{ steps.changelog.outputs.log }}
             ```
-
-            ### 📎 Files
-            - [Download Resume PDF](https://github.com/${{ github.repository }}/releases/download/v${{ github.run_number }}/Anish_Shobith_P_S_Resume.pdf)
-          files: Anish_Shobith_P_S_Resume.pdf
+          files: Anish_Shobith_P_S_Resume_${{ steps.date.outputs.date }}.pdf
           token: ${{ secrets.GITHUB_TOKEN }}
+          generate_release_notes: true
+          make_latest: true
+          fail_on_unmatched_files: true

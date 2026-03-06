@@ -1,0 +1,260 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://anishshobithps.com",
+      "name": "Anish Shobith P S",
+      "alternateName": "n10nce",
+      "jobTitle": "Software Engineer",
+      "email": "anish.shobith19@gmail.com",
+      "url": "https://anishshobithps.com",
+      "sameAs": [
+        "https://github.com/anishshobithps",
+        "https://x.com/n10nce",
+        "https://www.linkedin.com/in/anishshobithps"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Mangaluru",
+        "addressRegion": "Karnataka",
+        "addressCountry": "IN"
+      },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "St Joseph Engineering College",
+        "url": "https://sjec.ac.in"
+      },
+      "knowsAbout": [
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "C",
+        "C++",
+        "React",
+        "Next.js",
+        "Astro",
+        "Tailwind CSS",
+        "Three.js",
+        "Framer Motion",
+        "Node.js",
+        "Bun",
+        "Express.js",
+        "Hono",
+        "REST",
+        "GraphQL",
+        "PostgreSQL",
+        "MySQL",
+        "SQLite",
+        "MongoDB",
+        "Prisma",
+        "Drizzle",
+        "Git",
+        "Docker",
+        "Linux",
+        "Typst",
+        "LaTeX"
+      ],
+      "hasOccupation": [
+        {
+          "@type": "Occupation",
+          "name": "SDE Intern",
+          "alternateName": [
+            "Software Engineer Intern",
+            "Engineering Intern",
+            "Developer Intern"
+          ],
+          "occupationLocation": {
+            "@type": "City",
+            "name": "Bengaluru"
+          },
+          "hiringOrganization": {
+            "@type": "Organization",
+            "name": "Zenduty",
+            "url": "https://www.zenduty.com",
+            "parentOrganization": {
+              "@type": "Organization",
+              "name": "Xurrent",
+              "url": "https://www.xurrent.com"
+            }
+          },
+          "startDate": "2025-02",
+          "endDate": "2025-11"
+        },
+        {
+          "@type": "Occupation",
+          "name": "Tech Intern",
+          "alternateName": [
+            "Technology Intern",
+            "Software Intern",
+            "Developer Intern"
+          ],
+          "occupationLocation": {
+            "@type": "City",
+            "name": "Mangaluru"
+          },
+          "hiringOrganization": {
+            "@type": "Organization",
+            "name": "Headway",
+            "url": "https://headway.co.in"
+          },
+          "startDate": "2024-02",
+          "endDate": "2024-05"
+        }
+      ],
+      "workExample": [
+        {
+          "@type": "SoftwareSourceCode",
+          "name": "Tiara",
+          "url": "https://git.new/tiaraweb",
+          "programmingLanguage": [
+            "TypeScript",
+            "Next.js",
+            "PostgreSQL",
+            "Prisma"
+          ]
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "name": "Codelyra",
+          "url": "https://git.new/codelyra",
+          "programmingLanguage": ["TypeScript", "Discord.js", "Docker"]
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "name": "Certificate Generator",
+          "url": "https://git.new/gdsccert",
+          "programmingLanguage": ["Python", "Pillow", "Numpy"]
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "name": "Sorting Algorithm Visualizer",
+          "url": "https://git.new/sortalgviz",
+          "programmingLanguage": ["C++", "OpenGL", "CMake"]
+        }
+      ],
+      "copyrightYear": 2024,
+      "dateCreated": "2024",
+      "dateModified": "2026",
+      "copyrightHolder": {
+        "@type": "Person",
+        "name": "Anish Shobith P S"
+      },
+      "license": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "@type": "CreativeWork",
+      "@id": "https://anishshobithps.com/resume",
+      "name": "Anish Shobith P S - Resume",
+      "alternateName": [
+        "Anish Shobith P S - CV",
+        "Anish Shobith P S - Curriculum Vitae"
+      ],
+      "about": {
+        "@id": "https://anishshobithps.com"
+      },
+      "hasPart": [
+        {
+          "@type": "ItemList",
+          "name": "Work Experience",
+          "alternateName": [
+            "Experience",
+            "Employment History",
+            "Professional Experience",
+            "Career History"
+          ],
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "SDE Intern at Zenduty"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Tech Intern at Headway"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "name": "Education",
+          "alternateName": [
+            "Academic Background",
+            "Qualifications",
+            "Academic History"
+          ],
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "BE Computer Science - St Joseph Engineering College"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "name": "Technical Skills",
+          "alternateName": [
+            "Skills",
+            "Core Competencies",
+            "Technologies",
+            "Tech Stack",
+            "Expertise"
+          ],
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Languages: JavaScript, TypeScript, Python, C, C++"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Frontend: React, Next.js, Astro, Tailwind CSS, Three.js"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Backend: Node.js, Bun, Express.js, Hono, REST, GraphQL"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Databases: PostgreSQL, MySQL, SQLite, MongoDB, Prisma, Drizzle"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Tools: Git, Docker, Linux, Typst, LaTeX"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "name": "Projects",
+          "alternateName": [
+            "Personal Projects",
+            "Portfolio",
+            "Open Source Work",
+            "Side Projects"
+          ],
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Tiara" },
+            { "@type": "ListItem", "position": 2, "name": "Codelyra" },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Certificate Generator"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Sorting Algorithm Visualizer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
