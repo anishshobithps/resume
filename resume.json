@@ -1,0 +1,126 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Anish Shobith P S",
+    "label": "Software Engineer",
+    "email": "anish.shobith19@gmail.com",
+    "url": "https://anishshobithps.com",
+    "summary": "Software Engineer specialising in full-stack web development with expertise in TypeScript, React, Next.js, Node.js, and PostgreSQL.",
+    "location": {
+      "city": "Mangaluru",
+      "region": "Karnataka",
+      "countryCode": "IN"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "anishshobithps",
+        "url": "https://github.com/anishshobithps"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "anishshobithps",
+        "url": "https://www.linkedin.com/in/anishshobithps"
+      },
+      {
+        "network": "X",
+        "username": "n10nce",
+        "url": "https://x.com/n10nce"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Zenduty (Xurrent)",
+      "position": "SDE Intern",
+      "url": "https://www.zenduty.com",
+      "startDate": "2025-02",
+      "endDate": "2025-11",
+      "location": "Bengaluru, Karnataka, India"
+    },
+    {
+      "name": "Headway",
+      "position": "Tech Intern",
+      "url": "https://headway.co.in",
+      "startDate": "2024-02",
+      "endDate": "2024-05",
+      "location": "Mangaluru, Karnataka, India"
+    }
+  ],
+  "education": [
+    {
+      "institution": "St Joseph Engineering College",
+      "url": "https://sjec.ac.in",
+      "area": "Computer Science and Engineering",
+      "studyType": "Bachelor of Engineering",
+      "endDate": "2024-05"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages",
+      "keywords": ["JavaScript", "TypeScript", "Python", "C", "C++"]
+    },
+    {
+      "name": "Frontend",
+      "keywords": [
+        "React",
+        "Next.js",
+        "Astro",
+        "Tailwind CSS",
+        "Three.js",
+        "Framer Motion"
+      ]
+    },
+    {
+      "name": "Backend",
+      "keywords": ["Node.js", "Bun", "Express.js", "Hono", "REST", "GraphQL"]
+    },
+    {
+      "name": "Databases",
+      "keywords": [
+        "PostgreSQL",
+        "MySQL",
+        "SQLite",
+        "MongoDB",
+        "Prisma",
+        "Drizzle"
+      ]
+    },
+    {
+      "name": "Tools",
+      "keywords": ["Git", "Docker", "Linux", "Typst", "LaTeX"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Tiara",
+      "url": "https://git.new/tiaraweb",
+      "roles": ["Creator"],
+      "keywords": ["TypeScript", "Next.js", "PostgreSQL", "Prisma"]
+    },
+    {
+      "name": "Codelyra",
+      "url": "https://git.new/codelyra",
+      "roles": ["Creator"],
+      "keywords": ["TypeScript", "Discord.js", "Docker"]
+    },
+    {
+      "name": "Certificate Generator",
+      "url": "https://git.new/gdsccert",
+      "roles": ["Creator"],
+      "keywords": ["Python", "Pillow", "Numpy"]
+    },
+    {
+      "name": "Sorting Algorithm Visualizer",
+      "url": "https://git.new/sortalgviz",
+      "roles": ["Creator"],
+      "keywords": ["C++", "OpenGL", "CMake"]
+    }
+  ],
+  "meta": {
+    "canonical": "https://anishshobithps.com",
+    "version": "v1.0.0",
+    "lastModified": "2026-03-06"
+  }
+}

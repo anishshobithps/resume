@@ -1,83 +1,53 @@
-% -----------------------------------------------------------------------------
-% Formatting.sty - Custom Formatting and Commands for a Modular Resume
-% -----------------------------------------------------------------------------
-% Purpose:
-% This file provides styling and commands for creating a professional resume.
-% It is designed to be modular, allowing easy maintenance and reuse.
-% -----------------------------------------------------------------------------
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{enumitem}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{hyperxmp}
+\RequirePackage{titlesec}
+\RequirePackage{XCharter}
+\RequirePackage{xstring}
+\RequirePackage{geometry}
+\RequirePackage{fancyhdr}
+\RequirePackage{etoolbox}
+\RequirePackage{microtype}
+\RequirePackage{datetime2}
+\RequirePackage{embedfile}
 
-% -----------------------------------------------------------------------------
-% Required Packages
-% -----------------------------------------------------------------------------
-\RequirePackage[T1]{fontenc}             % T1 font encoding for proper hyphenation
-\RequirePackage[utf8]{inputenc}          % UTF-8 input encoding
-\RequirePackage{enumitem}                % Customization of list environments
-\RequirePackage[hidelinks]{hyperref}     % Hyperlinks without visible borders
-\RequirePackage{titlesec}                % Custom section titles formatting
-\RequirePackage{XCharter}                % Professional font family (XCharter)
-\RequirePackage{xstring}                 % String manipulation (e.g., URL processing)
-\RequirePackage{geometry}                % Page layout and margins
-\RequirePackage{fancyhdr}                % Custom headers and footers
-\RequirePackage{etoolbox}                % Enhanced conditional and command tools
+\geometry{a4paper, margin=0.5in}
 
-% -----------------------------------------------------------------------------
-% Page Layout and Margins
-% -----------------------------------------------------------------------------
-\geometry{a4paper, margin=0.5in}         % A4 paper with 0.5in margins
+\raggedright
+\pagestyle{empty}
+\input{glyphtounicode}
+\pdfgentounicode=1
 
-% -----------------------------------------------------------------------------
-% Global Text and Page Settings
-% -----------------------------------------------------------------------------
-\raggedright                            % Left-align text
-\pagestyle{empty}                       % Disable page numbering
-\input{glyphtounicode}                  % Enable machine-readable PDF output
-\pdfgentounicode=1                      % Unicode output
+% PDF/UA - mark document as tagged for accessibility
+\pdfminorversion=7
+\pdfobjcompresslevel=0
 
-% -----------------------------------------------------------------------------
-% Section Title Formatting
-% -----------------------------------------------------------------------------
-\titleformat{\section}                  % Custom section title format
-  {\bfseries\large}{}{}{}[\vspace{1pt}\titlerule\vspace{-6.5pt}]  % Bold, large section titles with a horizontal line
+\titleformat{\section}
+  {\bfseries\large}{}{}{}[\vspace{1pt}\titlerule\vspace{-6.5pt}]
 
-% -----------------------------------------------------------------------------
-% List Formatting
-% -----------------------------------------------------------------------------
-\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}  % Custom bullet for itemized lists
-\setlist[itemize]{                      % Customization for itemized lists
-  itemsep=-2pt,                          % Space between items
-  leftmargin=12pt,                       % Indentation
-  topsep=7pt                             % Space above list
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$}
+\setlist[itemize]{
+  itemsep=-2pt,
+  leftmargin=12pt,
+  topsep=7pt
 }
 
-% -----------------------------------------------------------------------------
-% Spacing Adjustments
-% -----------------------------------------------------------------------------
-\setlength{\parskip}{0pt}               % No extra space between paragraphs
-\setlength{\parindent}{0pt}             % No paragraph indentation
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
 
-% -----------------------------------------------------------------------------
-% Custom Commands
-% -----------------------------------------------------------------------------
-
-% Command: Technologies used in a project
-% Usage: \technologies{Tech1, Tech2}
 \newcommand{\technologies}[1]{\textit{Technologies: #1}}
 
-% Command: Shortened and Clickable URLs
-% Usage: \shorturl{https://example.com}
 \newcommand{\shorturl}[1]{%
   \StrSubstitute{#1}{https://}{}[\Result]%
   \StrSubstitute{\Result}{http://}{}[\Result]%
   \StrSubstitute{\Result}{mailto:}{}[\Result]%
-  \href{#1}{\Result}  % Converts to clickable link with a clean URL display
+  \href{#1}{\Result}%
 }
 
-% Command: Skills List
-% Usage: \skills{Type}{Skills}
 \newcommand{\skills}[2]{\textbf{#1:} #2}
 
-% Command: Project Information Block
-% Usage: \project{Project Name}{URL}{Technologies}{Details}
 \newcommand{\project}[4]{%
   \textbf{#1} \hfill \shorturl{#2} \\
   \vspace{-9pt}
@@ -87,8 +57,6 @@
   \end{itemize}
 }
 
-% Command: Work Experience Block
-% Usage: \experience{Role}{Company}{Time Period}{Location}{Responsibilities}
 \newcommand{\experience}[5]{%
   \noindent\textbf{#1,} {#2} -- #3 \hfill #4 \\
   \vspace{-9pt}
@@ -97,25 +65,6 @@
   \end{itemize}
 }
 
-% Command: Education Block
-% Usage: \education{Degree}{Institution}{URL}{Graduation Date}
 \newcommand{\education}[4]{%
   \textbf{#1} -- \href{#3}{#2} \hfill #4
 }
-
-% -----------------------------------------------------------------------------
-% Documentation for Users
-% -----------------------------------------------------------------------------
-% This package provides the following commands:
-% - \skills: Creates a list of skills with type and list of skills.
-% - \technologies: Displays technologies used in a project.
-% - \shorturl: Creates a clickable URL with the protocol stripped out.
-% - \project: Defines a project with name, URL, technologies, and details.
-% - \experience: Adds work experience with role, company, time period, location, and responsibilities.
-% - \education: Adds education details with degree, institution, URL, and graduation date.
-
-% -----------------------------------------------------------------------------
-% Notes:
-% - Adjust spacing, margins, and list styles as needed for different templates.
-% - Sections should be imported from separate files for better modularity and reuse.
-% -----------------------------------------------------------------------------

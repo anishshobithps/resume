@@ -1,16 +1,23 @@
-FROM pandoc/latex:latest
+FROM texlive/texlive:latest
 
-RUN tlmgr update --self && \
+RUN tlmgr option repository https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2025/tlnet-final && \
+    tlmgr update --self && \
     tlmgr install \
     enumitem \
     titlesec \
     xcharter \
+    xcharter-math \
+    fontaxes \
     etoolbox \
     xstring \
     geometry \
     fancyhdr \
     xkeyval \
-    fontaxes
+    microtype \
+    hyperxmp \
+    datetime2 \
+    datetime2-english \
+    embedfile
 
 WORKDIR /data
 ENTRYPOINT ["pdflatex"]
