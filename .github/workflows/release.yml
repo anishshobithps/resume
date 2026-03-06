@@ -57,11 +57,6 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/latex-builder \
             -jobname="Anish_Shobith_P_S_Resume" main.tex
 
-      - name: Rename PDF with date
-        run: |
-          mv Anish_Shobith_P_S_Resume.pdf \
-            "Anish_Shobith_P_S_Resume_${{ steps.date.outputs.date }}.pdf"
-
       - name: Generate changelog
         id: changelog
         run: |
@@ -78,7 +73,7 @@ jobs:
       - name: Get PDF size
         id: meta
         run: |
-          SIZE=$(du -sh "Anish_Shobith_P_S_Resume_${{ steps.date.outputs.date }}.pdf" | cut -f1)
+          SIZE=$(du -sh Anish_Shobith_P_S_Resume.pdf | cut -f1)
           echo "size=$SIZE" >> $GITHUB_OUTPUT
 
       - name: Create Release
@@ -101,7 +96,7 @@ jobs:
             ```
             ${{ steps.changelog.outputs.log }}
             ```
-          files: Anish_Shobith_P_S_Resume_${{ steps.date.outputs.date }}.pdf
+          files: Anish_Shobith_P_S_Resume.pdf
           token: ${{ secrets.GITHUB_TOKEN }}
           generate_release_notes: true
           make_latest: true
