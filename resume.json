@@ -5,7 +5,7 @@
     "label": "Software Engineer",
     "email": "anish.shobith19@gmail.com",
     "url": "https://anishshobithps.com",
-    "summary": "Software Engineer specialising in full-stack web development with expertise in TypeScript, React, Next.js, Node.js, and PostgreSQL.",
+    "summary": "Software engineer and open source developer building full-stack web applications and developer tools with TypeScript, React, Next.js, and Node.js.",
     "location": {
       "city": "Mangaluru",
       "region": "Karnataka",
@@ -31,20 +31,29 @@
   },
   "work": [
     {
+      "name": "Independent",
+      "position": "Developer Advocate",
+      "url": "https://anishshobithps.com",
+      "startDate": "2023-01",
+      "location": "Hybrid",
+      "highlights": [
+        "Build and maintain open source developer tools in TypeScript and Node.js, from a CLI to a small programming language and web apps, with automated Docker and CI builds",
+        "Mentor students, judge hackathons, and speak at various colleges",
+        "Write technical articles at anishshobithps.com"
+      ]
+    },
+    {
       "name": "Zenduty (Xurrent)",
-      "position": "SDE Intern",
+      "position": "Software Engineer Intern",
       "url": "https://www.zenduty.com",
       "startDate": "2025-02",
       "endDate": "2025-11",
-      "location": "Bengaluru, Karnataka, India"
-    },
-    {
-      "name": "Headway",
-      "position": "Tech Intern",
-      "url": "https://headway.co.in",
-      "startDate": "2024-02",
-      "endDate": "2024-05",
-      "location": "Mangaluru, Karnataka, India"
+      "location": "Bengaluru, Karnataka, India",
+      "highlights": [
+        "Built internal tools that centralized operational data into one interface, replacing manual lookups for the team",
+        "Migrated legacy front-end to a shadcn/ui component system, standardizing UI patterns across the product",
+        "Fixed a broad backlog of production bugs, improving internal workflow efficiency an estimated 10-20%"
+      ]
     }
   ],
   "education": [
@@ -56,71 +65,59 @@
       "endDate": "2024-05"
     }
   ],
+  "awards": [
+    {
+      "title": "1st Place, Devhost 2024 Hackathon",
+      "date": "2024",
+      "awarder": "Devhost"
+    },
+    {
+      "title": "2nd Place, 9-hour Hackathon",
+      "date": "2024",
+      "awarder": "Hackathon"
+    }
+  ],
   "skills": [
     {
       "name": "Languages",
-      "keywords": ["JavaScript", "TypeScript", "Python", "C", "C++"]
+      "keywords": ["TypeScript", "JavaScript", "Python", "C++"]
     },
     {
       "name": "Frontend",
-      "keywords": [
-        "React",
-        "Next.js",
-        "Astro",
-        "Tailwind CSS",
-        "Three.js",
-        "Framer Motion"
-      ]
+      "keywords": ["React", "Next.js", "Tailwind CSS", "shadcn/ui"]
     },
     {
       "name": "Backend",
-      "keywords": ["Node.js", "Bun", "Express.js", "Hono", "REST", "GraphQL"]
+      "keywords": ["Node.js", "REST", "Server-Sent Events", "Redis"]
     },
     {
-      "name": "Databases",
-      "keywords": [
-        "PostgreSQL",
-        "MySQL",
-        "SQLite",
-        "MongoDB",
-        "Prisma",
-        "Drizzle"
-      ]
-    },
-    {
-      "name": "Tools",
-      "keywords": ["Git", "Docker", "Linux", "Typst", "LaTeX"]
+      "name": "Data and Tools",
+      "keywords": ["PostgreSQL", "Neon", "Drizzle", "Docker", "CI/CD", "Vite"]
     }
   ],
   "projects": [
     {
-      "name": "Tiara",
-      "url": "https://git.new/tiaraweb",
-      "roles": ["Creator"],
-      "keywords": ["TypeScript", "Next.js", "PostgreSQL", "Prisma"]
+      "name": "Spire",
+      "url": "https://n10nce.dev/p/spire",
+      "description": "Real-time code sharing that streams local file changes over the web through a REST and Server-Sent Events API, with no setup required.",
+      "keywords": ["TypeScript", "Next.js", "Node.js", "Redis", "PostgreSQL"]
     },
     {
-      "name": "Codelyra",
-      "url": "https://git.new/codelyra",
-      "roles": ["Creator"],
-      "keywords": ["TypeScript", "Discord.js", "Docker"]
+      "name": "anishshobithps.com",
+      "url": "https://n10nce.dev/p/website",
+      "description": "Full-stack personal platform with an MDX blog, authenticated guestbook, and live Spotify, on Neon Postgres and Drizzle.",
+      "keywords": ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle", "Neon"]
     },
     {
-      "name": "Certificate Generator",
-      "url": "https://git.new/gdsccert",
-      "roles": ["Creator"],
-      "keywords": ["Python", "Pillow", "Numpy"]
-    },
-    {
-      "name": "Sorting Algorithm Visualizer",
-      "url": "https://git.new/sortalgviz",
-      "roles": ["Creator"],
-      "keywords": ["C++", "OpenGL", "CMake"]
+      "name": "The Mandala Studio",
+      "url": "https://n10nce.dev/p/mandala",
+      "description": "Interactive generator rendering infinite mandala patterns as SVG, with OKLCH color editing and URL-based config persistence.",
+      "keywords": ["React", "TypeScript", "SVG", "Vite"]
     }
   ],
   "meta": {
     "canonical": "https://anishshobithps.com",
-    "version": "v1.0.0",
-    "lastModified": "2026-03-06"
+    "version": "v2.1.0",
+    "lastModified": "2026-07-14"
   }
 }
