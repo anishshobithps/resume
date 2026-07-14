@@ -9,95 +9,125 @@ on:
       - "**.sty"
       - "**.json"
       - ".docker/**"
+      - ".github/workflows/release.yml"
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/latex-builder
+  PDF_NAME: Anish_Shobith_P_S_Resume
+
 jobs:
-  build:
+  release:
+    name: Compile and publish
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: docker/setup-buildx-action@v3
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v4
 
-      - uses: docker/login-action@v3
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Docker image
-        uses: docker/build-push-action@v5
+      - name: Derive image tags and labels
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build and push builder image
+        uses: docker/build-push-action@v7
         with:
           context: .docker
           push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ghcr.io/${{ github.repository_owner }}/latex-builder:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Update metadata dates
+      - name: Stamp metadata dates
         run: |
-          DATE=$(date +%Y-%m-%d)
-          YEAR=$(date +%Y)
-          sed -i "s/\"lastModified\": \".*\"/\"lastModified\": \"$DATE\"/" resume.json
-          sed -i "s/\"dateModified\": \".*\"/\"dateModified\": \"$YEAR\"/" schema.json
+          sed -i "s/\"lastModified\": \".*\"/\"lastModified\": \"$(date -u +'%Y-%m-%d')\"/" resume.json
+          sed -i "s/\"dateModified\": \".*\"/\"dateModified\": \"$(date -u +'%Y')\"/" schema.json
 
-      - name: Set build date
-        id: date
-        run: echo "date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
-
-      - name: Build Resume
+      - name: Compile resume
         run: |
-          docker run --rm -v "${{ github.workspace }}:/data" \
-            ghcr.io/${{ github.repository_owner }}/latex-builder \
-            -jobname="Anish_Shobith_P_S_Resume" main.tex
+          for pass in 1 2; do
+            docker run --rm -v "${{ github.workspace }}:/data" \
+              "$IMAGE:latest" -jobname="$PDF_NAME" main.tex
+          done
 
-      - name: Generate changelog
+      - name: Collect release info
+        id: info
+        run: |
+          {
+            echo "date=$(date -u +'%Y-%m-%d')"
+            echo "size=$(du -h "$PDF_NAME.pdf" | cut -f1)"
+            echo "short_sha=$(git rev-parse --short HEAD)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build changelog
         id: changelog
-        run: |
-          PREV_TAG=$(git tag --sort=-version:refname | head -n 1)
-          if [ -z "$PREV_TAG" ]; then
-            LOG=$(git log --oneline --no-merges | head -20)
-          else
-            LOG=$(git log "$PREV_TAG"..HEAD --oneline --no-merges)
-          fi
-          echo "log<<EOF" >> $GITHUB_OUTPUT
-          echo "$LOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+        uses: mikepenz/release-changelog-builder-action@v6
+        with:
+          mode: COMMIT
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}",
+              "categories": [
+                { "title": "### 🚀 Features", "labels": ["feat"] },
+                { "title": "### 🐛 Fixes", "labels": ["fix", "perf"] },
+                { "title": "### 📝 Docs", "labels": ["docs"] },
+                { "title": "### 🎨 Content & Styling", "labels": ["style", "refactor"] },
+                { "title": "### 🔧 Tooling & CI", "labels": ["chore", "ci", "build"] },
+                { "title": "### 📦 Other", "labels": [] }
+              ],
+              "label_extractor": [
+                {
+                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\\([\\w\\-\\.]+\\))?(!)?:.*",
+                  "on_property": "title",
+                  "target": "$1"
+                }
+              ],
+              "empty_content": "_No notable changes since the last release._"
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get PDF size
-        id: meta
-        run: |
-          SIZE=$(du -sh Anish_Shobith_P_S_Resume.pdf | cut -f1)
-          echo "size=$SIZE" >> $GITHUB_OUTPUT
-
-      - name: Create Release
+      - name: Publish release
         if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ github.run_number }}
-          name: "v${{ github.run_number }} — ${{ steps.date.outputs.date }}"
+          name: Resume v${{ github.run_number }} — ${{ steps.info.outputs.date }}
           body: |
-            ### 📦 Build Info
-            | Field | Value |
-            |-------|-------|
-            | Build | #${{ github.run_number }} |
-            | Date | ${{ steps.date.outputs.date }} |
-            | Commit | [`${{ github.sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) |
-            | Author | ${{ github.actor }} |
-            | Size | ${{ steps.meta.outputs.size }} |
+            **⬇️ [Download the PDF](${{ github.server_url }}/${{ github.repository }}/releases/download/v${{ github.run_number }}/${{ env.PDF_NAME }}.pdf)** &nbsp;·&nbsp; ${{ steps.info.outputs.size }}, compiled ${{ steps.info.outputs.date }}
 
-            ### 📝 Changes
-            ```
-            ${{ steps.changelog.outputs.log }}
-            ```
-          files: Anish_Shobith_P_S_Resume.pdf
-          token: ${{ secrets.GITHUB_TOKEN }}
-          generate_release_notes: true
+            ## What's changed
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            <sub>Built with 🐳 `${{ env.IMAGE }}:latest` &nbsp;·&nbsp; commit [`${{ steps.info.outputs.short_sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}) &nbsp;·&nbsp; [full diff](${{ github.server_url }}/${{ github.repository }}/compare/${{ steps.changelog.outputs.fromTag }}...${{ steps.changelog.outputs.toTag }})</sub>
+          files: ${{ env.PDF_NAME }}.pdf
           make_latest: true
           fail_on_unmatched_files: true
