@@ -86,34 +86,6 @@ jobs:
             echo "short_sha=$(git rev-parse --short HEAD)"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Build changelog
-        id: changelog
-        uses: mikepenz/release-changelog-builder-action@v6
-        with:
-          mode: COMMIT
-          configurationJson: |
-            {
-              "template": "#{{CHANGELOG}}",
-              "categories": [
-                { "title": "### 🚀 Features", "labels": ["feat"] },
-                { "title": "### 🐛 Fixes", "labels": ["fix", "perf"] },
-                { "title": "### 📝 Docs", "labels": ["docs"] },
-                { "title": "### 🎨 Content & Styling", "labels": ["style", "refactor"] },
-                { "title": "### 🔧 Tooling & CI", "labels": ["chore", "ci", "build"] },
-                { "title": "### 📦 Other", "labels": [] }
-              ],
-              "label_extractor": [
-                {
-                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\\([\\w\\-\\.]+\\))?(!)?:.*",
-                  "on_property": "title",
-                  "target": "$1"
-                }
-              ],
-              "empty_content": "_No notable changes since the last release._"
-            }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish release
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v3
@@ -123,11 +95,7 @@ jobs:
           body: |
             **⬇️ [Download the PDF](${{ github.server_url }}/${{ github.repository }}/releases/download/v${{ github.run_number }}/${{ env.PDF_NAME }}.pdf)** &nbsp;·&nbsp; ${{ steps.info.outputs.size }}, compiled ${{ steps.info.outputs.date }}
 
-            ## What's changed
-
-            ${{ steps.changelog.outputs.changelog }}
-
-            <sub>Built with 🐳 `${{ env.IMAGE }}:latest` &nbsp;·&nbsp; commit [`${{ steps.info.outputs.short_sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}) &nbsp;·&nbsp; [full diff](${{ github.server_url }}/${{ github.repository }}/compare/${{ steps.changelog.outputs.fromTag }}...${{ steps.changelog.outputs.toTag }})</sub>
+            <sub>Built with 🐳 `${{ env.IMAGE }}:latest` &nbsp;·&nbsp; commit [`${{ steps.info.outputs.short_sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})</sub>
           files: ${{ env.PDF_NAME }}.pdf
           make_latest: true
           fail_on_unmatched_files: true
