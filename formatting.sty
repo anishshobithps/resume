@@ -12,6 +12,7 @@
 \RequirePackage{microtype}
 \RequirePackage{datetime2}
 \RequirePackage{embedfile}
+\RequirePackage{accsupp}
 
 \geometry{a4paper, margin=0.4in}
 
@@ -38,6 +39,10 @@
 \setlength{\parindent}{0pt}
 
 \newcommand{\technologies}[1]{\textit{Technologies: #1}}
+
+\newcommand{\atslink}[3]{%
+  \href{#1}{\BeginAccSupp{method=pdfstringdef,ActualText={#3}}#2\EndAccSupp{}}%
+}
 
 \newcommand{\shorturl}[1]{%
   \StrSubstitute{#1}{https://}{}[\Result]%

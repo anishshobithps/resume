@@ -11,7 +11,7 @@ RUN apt-get update && \
     tlmgr install \
       enumitem titlesec xcharter xcharter-math fontaxes mweights carlisle etoolbox \
       xstring geometry fancyhdr xkeyval microtype hyperxmp \
-      datetime2 datetime2-english embedfile && \
+      datetime2 datetime2-english embedfile accsupp && \
     tlmgr path add
 
 WORKDIR /data
