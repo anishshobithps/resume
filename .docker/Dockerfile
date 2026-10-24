@@ -7,11 +7,15 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      wget xz-utils perl ca-certificates fontconfig && \
+      wget xz-utils perl ca-certificates fontconfig gnupg && \
     rm -rf /var/lib/apt/lists/* && \
     wget -qO /tmp/install-tinytex.sh "https://yihui.org/tinytex/install-bin-unix.sh" && \
     sh /tmp/install-tinytex.sh && \
     rm /tmp/install-tinytex.sh && \
+    # The rolling tlnet repo updates its tlmgr continuously, so the version
+    # baked into the installer drifts out of date and `tlmgr install` refuses
+    # to run. Self-update tlmgr first so the build never breaks on that skew.
+    tlmgr update --self && \
     tlmgr install \
       enumitem titlesec xcharter xcharter-math fontaxes mweights carlisle etoolbox \
       xstring geometry fancyhdr xkeyval microtype hyperxmp \

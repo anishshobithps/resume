@@ -32,14 +32,13 @@
   "work": [
     {
       "name": "Independent",
-      "position": "Developer Advocate",
+      "position": "Open Source Developer",
       "url": "https://anishshobithps.com",
       "startDate": "2023-01",
       "location": "Hybrid",
       "highlights": [
-        "Build and maintain open source developer tools in TypeScript and Node.js, from a CLI to a small programming language and web apps, with automated Docker and CI builds",
-        "Mentor students, judge hackathons, and speak at various colleges",
-        "Write technical articles at anishshobithps.com"
+        "Delivered 8+ technical talks, mentored students, and judged hackathons at colleges",
+        "Published 4 technical articles on anishshobithps.com"
       ]
     },
     {
@@ -50,37 +49,33 @@
       "endDate": "2025-11",
       "location": "Bengaluru, Karnataka, India",
       "highlights": [
-        "Built internal tools that centralized operational data into one interface, replacing manual lookups for the team",
-        "Migrated legacy front-end to a shadcn/ui component system, standardizing UI patterns across the product",
-        "Fixed a broad backlog of production bugs, improving internal workflow efficiency an estimated 10-20%"
+        "Built internal tools that unified operational data into a single interface, eliminating manual lookups for the team",
+        "Migrated the legacy front-end to a shadcn/ui component system, standardizing UI patterns across the product",
+        "Raised internal workflow efficiency an estimated 10-20% by clearing a backlog of production bugs"
       ]
     }
   ],
   "education": [
     {
+      "institution": "Manipal School of Information Sciences",
+      "url": "https://www.manipal.edu/msis-manipal",
+      "area": "Computer Science and Engineering (Cyber Security)",
+      "studyType": "Master of Engineering",
+      "startDate": "2026-07"
+    },
+    {
       "institution": "St Joseph Engineering College",
       "url": "https://sjec.ac.in",
       "area": "Computer Science and Engineering",
       "studyType": "Bachelor of Engineering",
+      "startDate": "2020-12",
       "endDate": "2024-05"
-    }
-  ],
-  "awards": [
-    {
-      "title": "1st Place, Devhost 2024 Hackathon",
-      "date": "2024",
-      "awarder": "Devhost"
-    },
-    {
-      "title": "2nd Place, 9-hour Hackathon",
-      "date": "2024",
-      "awarder": "Hackathon"
     }
   ],
   "skills": [
     {
       "name": "Languages",
-      "keywords": ["TypeScript", "JavaScript", "Python", "C++"]
+      "keywords": ["TypeScript", "JavaScript", "Python", "C++", "Go"]
     },
     {
       "name": "Frontend",
@@ -88,36 +83,36 @@
     },
     {
       "name": "Backend",
-      "keywords": ["Node.js", "REST", "Server-Sent Events", "Redis"]
+      "keywords": ["Node.js", "REST", "Server-Sent Events"]
     },
     {
       "name": "Data and Tools",
-      "keywords": ["PostgreSQL", "Neon", "Drizzle", "Docker", "CI/CD", "Vite"]
+      "keywords": ["PostgreSQL", "Drizzle", "Docker", "CI/CD", "Vite"]
     }
   ],
   "projects": [
     {
-      "name": "Spire",
-      "url": "https://n10nce.dev/p/spire",
-      "description": "Real-time code sharing that streams local file changes over the web through a REST and Server-Sent Events API, with no setup required.",
-      "keywords": ["TypeScript", "Next.js", "Node.js", "Redis", "PostgreSQL"]
+      "name": "biga",
+      "url": "https://n10nce.dev/p/biga",
+      "description": "Live, read-only code sharing: a Go CLI streams local file changes to a Next.js web viewer in real time over Server-Sent Events, backed by a Go API on Postgres and self-hostable with Docker.",
+      "keywords": ["Go", "TypeScript", "Next.js", "PostgreSQL", "Docker"]
     },
     {
       "name": "anishshobithps.com",
       "url": "https://n10nce.dev/p/website",
-      "description": "Full-stack personal platform with an MDX blog, authenticated guestbook, and live Spotify, on Neon Postgres and Drizzle.",
-      "keywords": ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle", "Neon"]
+      "description": "Full-stack portfolio, blog, and guestbook on Next.js 16 and React 19: MDX posts with reactions and threaded comments behind Clerk auth, plus an owner-only admin for projects and short links, on Neon Postgres with Drizzle.",
+      "keywords": ["Next.js", "React", "TypeScript", "Drizzle", "PostgreSQL", "Clerk"]
     },
     {
       "name": "The Mandala Studio",
       "url": "https://n10nce.dev/p/mandala",
-      "description": "Interactive generator rendering infinite mandala patterns as SVG, with OKLCH color editing and URL-based config persistence.",
-      "keywords": ["React", "TypeScript", "SVG", "Vite"]
+      "description": "Interactive SVG mandala generator on React 19 and Vite: ten pattern types with ring, symmetry, and complexity controls, an OKLCH color editor, shareable URL-encoded config, and SVG/PNG/WebP export up to 4K.",
+      "keywords": ["React", "TypeScript", "Vite", "SVG", "Tailwind CSS"]
     }
   ],
   "meta": {
     "canonical": "https://anishshobithps.com",
-    "version": "v2.1.0",
-    "lastModified": "2026-07-14"
+    "version": "v2.2.0",
+    "lastModified": "2026-10-25"
   }
 }

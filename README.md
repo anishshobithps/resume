@@ -30,7 +30,10 @@ Optional, for verifying the output:
 > Compilation runs inside a custom Docker image for consistency and
 > reproducibility across environments. The image is amd64-only (pinned in the
 > Dockerfile), so pass `--platform=linux/amd64` on Apple Silicon and other
-> arm64 hosts.
+> arm64 hosts. `--provenance=false` stops Buildx from wrapping the result in a
+> manifest list (with attestations) that won't load into the local image store —
+> without it, `docker build` reports success but `docker run` can't find the
+> image and tries to pull it from a registry.
 
 ## How to Use
 
@@ -44,7 +47,7 @@ cd resume
 **2. Build the Docker image**
 
 ```sh
-docker build -t latex-builder .docker
+docker build --platform=linux/amd64 --provenance=false -t latex-builder .docker
 ```
 
 **3. Compile the resume**

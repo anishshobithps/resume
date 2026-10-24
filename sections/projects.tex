@@ -1,28 +1,28 @@
 \section*{Projects}
 
 \project
-  {Spire}
-  {https://n10nce.dev/p/spire}
-  {TypeScript, Next.js, Node.js, Redis, PostgreSQL}
+  {biga}
+  {https://n10nce.dev/p/biga}
+  {Go, TypeScript, Next.js, PostgreSQL, Docker}
   {
-    \item Built a real-time code-sharing tool that streams local file changes over the web through a REST and Server-Sent Events API, with no setup required
-    \item Scaled live updates across server instances with a Redis pub/sub layer and Postgres-backed session snapshots
+    \item Built a live code-sharing tool: a Go CLI streams local file changes to a Next.js web viewer in real time over Server-Sent Events
+    \item Backed it with a Go REST API on Postgres and a one-command Docker Compose self-host stack
   }
 
 \project
   {anishshobithps.com}
   {https://n10nce.dev/p/website}
-  {Next.js, TypeScript, Tailwind CSS, Drizzle, Neon}
+  {Next.js 16, React 19, TypeScript, Drizzle, PostgreSQL, Clerk}
   {
-    \item Built a full-stack platform with an MDX blog, authenticated guestbook, and live Spotify, on Neon Postgres and Drizzle
-    \item Added privacy-friendly analytics and incremental rendering for fast page loads
+    \item Built a portfolio, blog, and guestbook on Next.js 16 and React 19: MDX posts with reactions and threaded comments behind Clerk auth, on Neon Postgres with Drizzle
+    \item Added an owner-only admin for projects and short links, code-drawn isometric art, OG and SVG card endpoints, and an RSS feed
   }
 
 \project
   {The Mandala Studio}
   {https://n10nce.dev/p/mandala}
-  {React, TypeScript, SVG, Vite}
+  {React 19, TypeScript, Vite, SVG, Tailwind CSS}
   {
-    \item Built an interactive generator rendering infinite mandala patterns as SVG from ring, symmetry, and complexity controls
-    \item Added OKLCH color editing and URL-based config persistence, making every design shareable from a seed
+    \item Built an interactive SVG mandala generator on React 19 and Vite with ten pattern types and controls for rings, symmetry, and complexity
+    \item Added an OKLCH color editor, shareable URL-encoded config, and SVG, PNG, and WebP export up to 4K
   }

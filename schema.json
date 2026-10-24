@@ -20,16 +20,24 @@
         "addressRegion": "Karnataka",
         "addressCountry": "IN"
       },
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "St Joseph Engineering College",
-        "url": "https://sjec.ac.in"
-      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Manipal School of Information Sciences",
+          "url": "https://www.manipal.edu/msis-manipal"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "St Joseph Engineering College",
+          "url": "https://sjec.ac.in"
+        }
+      ],
       "knowsAbout": [
         "TypeScript",
         "JavaScript",
         "Python",
         "C++",
+        "Go",
         "React",
         "Next.js",
         "Tailwind CSS",
@@ -37,9 +45,7 @@
         "Node.js",
         "REST",
         "Server-Sent Events",
-        "Redis",
         "PostgreSQL",
-        "Neon",
         "Drizzle",
         "Docker",
         "CI/CD",
@@ -48,11 +54,11 @@
       "hasOccupation": [
         {
           "@type": "Occupation",
-          "name": "Developer Advocate",
+          "name": "Open Source Developer",
           "alternateName": [
-            "Developer Relations",
-            "DevRel",
-            "Open Source Developer"
+            "Open Source Maintainer",
+            "Open Source Contributor",
+            "Software Developer"
           ],
           "occupationLocation": {
             "@type": "Place",
@@ -89,37 +95,23 @@
       "workExample": [
         {
           "@type": "SoftwareSourceCode",
-          "name": "Spire",
-          "url": "https://n10nce.dev/p/spire",
-          "programmingLanguage": ["TypeScript", "Next.js", "Node.js", "Redis", "PostgreSQL"]
+          "name": "biga",
+          "url": "https://n10nce.dev/p/biga",
+          "programmingLanguage": ["Go", "TypeScript", "Next.js", "PostgreSQL", "Docker"]
         },
         {
           "@type": "SoftwareSourceCode",
           "name": "anishshobithps.com",
           "url": "https://n10nce.dev/p/website",
-          "programmingLanguage": ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle", "Neon"]
+          "programmingLanguage": ["Next.js", "React", "TypeScript", "Drizzle", "PostgreSQL", "Clerk"]
         },
         {
           "@type": "SoftwareSourceCode",
           "name": "The Mandala Studio",
           "url": "https://n10nce.dev/p/mandala",
-          "programmingLanguage": ["React", "TypeScript", "SVG", "Vite"]
+          "programmingLanguage": ["React", "TypeScript", "Vite", "SVG", "Tailwind CSS"]
         }
       ],
-      "award": [
-        "1st Place, Devhost 2024 Hackathon",
-        "2nd Place, 9-hour Hackathon"
-      ],
-      "subjectOf": {
-        "@type": "NewsArticle",
-        "headline": "SJEC Winter Hackathon 2026",
-        "url": "https://daijiworld.com/news/newsDisplay?newsID=1304263",
-        "publisher": {
-          "@type": "Organization",
-          "name": "Daijiworld"
-        },
-        "datePublished": "2026-01-21"
-      },
       "copyrightYear": 2024,
       "dateCreated": "2024",
       "dateModified": "2026",
@@ -175,6 +167,11 @@
             {
               "@type": "ListItem",
               "position": 1,
+              "name": "ME Computer Science (Cyber Security) - Manipal School of Information Sciences"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
               "name": "BE Computer Science - St Joseph Engineering College"
             }
           ]
@@ -222,7 +219,7 @@
             "Side Projects"
           ],
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Spire" },
+            { "@type": "ListItem", "position": 1, "name": "biga" },
             { "@type": "ListItem", "position": 2, "name": "anishshobithps.com" },
             { "@type": "ListItem", "position": 3, "name": "The Mandala Studio" }
           ]
